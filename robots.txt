@@ -1,1 +1,4 @@
+User-agent: *
+Allow: /
 
+Sitemap: https://pictura-poesis.com/sitemap.xml
