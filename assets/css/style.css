@@ -286,10 +286,10 @@ p {
         var(--content-width)
     );
     margin: 0 auto;
-    padding: 8.5rem 0;
+    padding: 6.5rem 0;
 }
 .section-heading {
-    margin-bottom: 5.5rem;
+    margin-bottom: 3.5rem;
 }
 .section-heading > p:last-child {
     margin: 1.6rem 0 0;
@@ -477,16 +477,16 @@ p {
    DISCOGRAPHY
 ========================================================== */
 .discography {
-    padding-top: 9.5rem;
+    padding-top: 6.5rem;
 }
 .release {
     display: grid;
     grid-template-columns:
         minmax(280px, 510px)
         minmax(300px, 1fr);
-    gap: clamp(4rem, 8vw, 8rem);
+    gap: clamp(3rem, 6vw, 6rem);
     align-items: center;
-    padding: 5rem 0;
+    padding: 3.75rem 0;
     border-top: 1px solid var(--line);
 }
 .release-feature {
@@ -576,7 +576,7 @@ p {
    HOME ARCHIVE
 ========================================================== */
 .archive-heading {
-    padding-top: 7rem;
+    padding-top: 5rem;
     margin-bottom: 3rem;
     border-top: 1px solid var(--line);
 }
@@ -625,8 +625,8 @@ p {
 ========================================================== */
 .concept-section {
     position: relative;
-    min-height: 760px;
-    margin-top: 4rem;
+    min-height: 560px;
+    margin-top: 2.5rem;
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -705,7 +705,7 @@ p {
     grid-template-columns:
         minmax(300px, 1fr)
         minmax(300px, 520px);
-    gap: clamp(4rem, 10vw, 10rem);
+    gap: clamp(3rem, 7vw, 7rem);
     align-items: end;
     border-bottom: 1px solid var(--line);
 }
@@ -719,7 +719,7 @@ p {
     position: relative;
     display: flex;
     align-items: center;
-    min-height: 72vh;
+    min-height: 52vh;
     padding: 8rem 6vw;
     background:
         linear-gradient(
@@ -757,39 +757,11 @@ p {
     letter-spacing: .06em;
 }
 /* ==========================================================
-   LIVE
-========================================================== */
-.live {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: end;
-}
-.show-row {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 2rem;
-    padding: 1.5rem 0;
-    border-top: 1px solid var(--line-strong);
-    border-bottom: 1px solid var(--line);
-}
-.show-status {
-    color: #958b7f;
-    font-size: .65rem;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-}
-.live-follow {
-    margin: 1.8rem 0 0;
-    color: var(--ash);
-    font-size: .85rem;
-}
-/* ==========================================================
    CONTACT
 ========================================================== */
 .contact {
     position: relative;
-    padding: 10rem 6vw;
+    padding: 7rem 6vw;
     text-align: center;
     background: var(--black-soft);
     border-top: 1px solid var(--line);
@@ -959,7 +931,7 @@ p {
     grid-template-columns:
         minmax(300px, 1fr)
         minmax(300px, 520px);
-    gap: clamp(4rem, 10vw, 10rem);
+    gap: clamp(3rem, 7vw, 7rem);
     align-items: end;
     border-bottom: 1px solid var(--line);
 }
@@ -1018,7 +990,7 @@ p {
     grid-template-columns:
         minmax(280px, 500px)
         minmax(300px, 1fr);
-    gap: clamp(4rem, 8vw, 8rem);
+    gap: clamp(3rem, 6vw, 6rem);
     align-items: start;
     padding: 6rem 0;
     border-top: 1px solid var(--line);
@@ -1181,6 +1153,14 @@ p {
     font-size: .62rem;
 }
 /* ==========================================================
+   HOME COMPACT SCALE
+========================================================== */
+.intro h2,.section-heading h2,.concept-copy h2,.about h2,.next-chapter h2,.contact h2{font-size:clamp(2.8rem,4.6vw,4.6rem)}
+.release-info h3,.archive-heading h3{font-size:clamp(2.35rem,3.8vw,3.8rem)}
+.intro .lead,.concept-copy .lead{font-size:clamp(1.35rem,2vw,1.9rem)}
+.about .lead-small,.next-chapter .lead-small{font-size:clamp(1.3rem,1.9vw,1.8rem)}
+.hero-tagline{font-size:clamp(1.35rem,2vw,1.85rem)}
+/* ==========================================================
    TABLET
 ========================================================== */
 @media (max-width: 950px) {
@@ -1225,7 +1205,7 @@ p {
         display: block;
     }
     .hero {
-        min-height: 92svh;
+        min-height: 88svh;
         padding: 8rem 6vw 5rem;
         background:
             linear-gradient(
@@ -1404,10 +1384,10 @@ p {
 ========================================================== */
 @media (max-width: 420px) {
     h2 {
-        font-size: clamp(3rem, 15vw, 4.4rem);
+        font-size: clamp(2.6rem, 12vw, 3.8rem);
     }
     h3 {
-        font-size: clamp(2.7rem, 14vw, 4rem);
+        font-size: clamp(2.35rem, 11vw, 3.4rem);
     }
     .hero {
         padding-top: 7.5rem;
@@ -1514,3 +1494,7 @@ p {
         animation-duration: .01ms !important;
     }
 }
+/* ==========================================================
+   HOME MOBILE COMPACT OVERRIDES
+========================================================== */
+@media (max-width:750px){.intro h2,.section-heading h2,.concept-copy h2,.about h2,.next-chapter h2,.contact h2{font-size:clamp(2.7rem,11vw,3.7rem)}.release-info h3,.archive-heading h3{font-size:clamp(2.35rem,10vw,3.25rem)}.intro .lead,.concept-copy .lead,.about .lead-small,.next-chapter .lead-small{font-size:1.3rem}.section{padding:4.5rem 0}.discography{padding-top:5rem}.release,.release-reverse{padding:3.25rem 0}.concept-section{min-height:500px}.concept-inner{padding:5rem 0}.next-chapter{min-height:auto;padding:5rem 6vw}.contact{padding:5.5rem 6vw}}
