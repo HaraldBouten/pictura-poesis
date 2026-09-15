@@ -209,7 +209,7 @@ p {
             rgba(8,10,10,.75)
         ),
 
-        url("../images/hero.jpg")
+        url("../images/background.png")
         center / cover no-repeat;
 
     overflow: hidden;
@@ -520,7 +520,7 @@ p {
             rgba(8,10,10,.6)
         ),
 
-        url("../images/hero.jpg")
+        url("../images/background.png")
         center / cover no-repeat;
 
     filter:
