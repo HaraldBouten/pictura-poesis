@@ -726,7 +726,6 @@ p {
 
 }
 
-
 /* ==========================================================
    INTERNAL PAGE HERO
 ========================================================== */
@@ -736,27 +735,25 @@ p {
     position: relative;
 
     display: flex;
-
     align-items: flex-end;
 
-    min-height: 72svh;
+    min-height: 48vh;
 
-    padding: 11rem 6vw 7rem;
+    padding: 9rem 7vw 4.5rem;
 
     background:
 
         linear-gradient(
             90deg,
-            rgba(7, 9, 9, .93),
-            rgba(7, 9, 9, .60),
-            rgba(7, 9, 9, .25)
+            rgba(7, 9, 9, .94) 0%,
+            rgba(7, 9, 9, .72) 50%,
+            rgba(7, 9, 9, .40) 100%
         ),
 
         url("../images/background.png")
         center / cover no-repeat;
 
     overflow: hidden;
-
 }
 
 
@@ -772,18 +769,12 @@ p {
 
         linear-gradient(
             to bottom,
-            rgba(7, 9, 9, .05),
-            rgba(7, 9, 9, .12) 55%,
+            rgba(7, 9, 9, .10),
+            rgba(7, 9, 9, .15) 55%,
             var(--black) 100%
         );
 
-}
-
-
-.page-hero--works {
-
-    background-position: 65% center;
-
+    pointer-events: none;
 }
 
 
@@ -793,40 +784,40 @@ p {
 
     z-index: 2;
 
-    width: min(900px, 100%);
-
+    width: min(720px, 100%);
 }
 
 
 .page-title {
 
+    margin: 0;
+
     color: var(--white);
 
     font-family: var(--font-display);
 
-    font-size: clamp(5.3rem, 12vw, 10.5rem);
+    font-size: clamp(4rem, 8vw, 7rem);
 
     font-weight: 500;
 
-    line-height: .78;
-
+    line-height: .82;
 }
 
 
 .page-lead {
 
-    max-width: 630px;
+    max-width: 560px;
 
-    margin: 3rem 0 0;
+    margin: 2rem 0 0;
+
+    color: var(--parchment);
 
     font-family: var(--font-display);
 
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-size: clamp(1.25rem, 2vw, 1.7rem);
 
-    line-height: 1.3;
-
+    line-height: 1.35;
 }
-
 
 /* ==========================================================
    INTRO
@@ -2861,6 +2852,131 @@ p {
 
     }
 
+}
+/* ==========================================================
+   INTERNAL PAGE COMPACT LAYOUT
+========================================================== */
+
+.page-intro,
+.timeline-section,
+.works-manifesto,
+.works-archive {
+
+    padding-top: 5.5rem;
+    padding-bottom: 5.5rem;
+}
+
+
+/* headings op subpagina's iets kleiner */
+
+.page-intro h2,
+.timeline-section h2,
+.works-manifesto h2,
+.works-archive h2 {
+
+    font-size: clamp(3.1rem, 5.2vw, 5.2rem);
+}
+
+
+/* intro content minder breed / monumentaal */
+
+.page-intro {
+
+    grid-template-columns:
+        130px
+        minmax(0, 760px);
+
+    justify-content: start;
+
+    gap: 3.5rem;
+}
+
+
+.page-intro .lead {
+
+    max-width: 650px;
+
+    font-size: clamp(1.35rem, 2.2vw, 1.95rem);
+}
+
+
+.page-intro .body-copy {
+
+    max-width: 620px;
+
+    margin-top: 1.8rem;
+}
+
+
+/* timeline compacter */
+
+.timeline-entry {
+
+    padding: 3rem 0;
+}
+
+
+.timeline-content {
+
+    max-width: 650px;
+}
+
+
+.timeline-content h3 {
+
+    margin-bottom: 1.4rem;
+
+    font-size: clamp(2.4rem, 4vw, 3.8rem);
+}
+
+
+.timeline-content > p:not(.timeline-label) {
+
+    margin-bottom: 1rem;
+
+    font-size: .92rem;
+}
+
+
+/* works compacter */
+
+.works-manifesto {
+
+    gap: 5rem;
+}
+
+
+.works-manifesto .lead-small {
+
+    font-size: clamp(1.35rem, 2vw, 1.8rem);
+}
+
+
+.method-step {
+
+    min-height: 300px;
+
+    padding: 2.8rem 2.2rem;
+}
+
+
+.method-step h3 {
+
+    font-size: clamp(2.3rem, 3vw, 3.3rem);
+}
+
+
+.work-release {
+
+    gap: 5rem;
+
+    padding: 4.5rem 0;
+}
+
+
+.work-release-content h3 {
+
+    font-size: clamp(2.6rem, 4.5vw, 4.3rem);
 }
 
 
