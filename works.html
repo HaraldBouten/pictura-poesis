@@ -1,682 +1,2214 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Works: the paintings, stories and images interpreted through the music of Pictura Poesis.">
+  <meta name="theme-color" content="#070909">
+  <title>The Works | Pictura Poesis</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    :root {
+      --works-black: #070909;
+      --works-raised: #101313;
+      --works-paper: #e4ded2;
+      --works-white: #f3f0e8;
+      --works-ash: #979b96;
+      --works-dust: #9f9180;
+      --works-line: rgba(228, 222, 210, .16);
+      --works-line-strong: rgba(228, 222, 210, .34);
+      --works-display: "Cormorant Garamond", Georgia, serif;
+      --works-body: "Inter", Arial, sans-serif;
+      --works-width: min(1220px, calc(100% - 12vw));
+    }
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 10rem;
+    }
 
-    <title>The Works — Pictura Poesis</title>
+    body.works-page {
+      background: var(--works-black);
+      color: var(--works-paper);
+    }
 
-    <meta
-        name="description"
-        content="Explore the artistic, historical and literary world behind the music of Pictura Poesis."
-    >
+    body.dialog-open {
+      overflow: hidden;
+    }
 
-    <meta
-        name="robots"
-        content="index, follow"
-    >
+    .works-museum,
+    .works-museum * {
+      box-sizing: border-box;
+    }
 
-    <link
-        rel="canonical"
-        href="https://pictura-poesis.com/works.html"
-    >
+    .works-museum button,
+    .works-museum a {
+      -webkit-tap-highlight-color: transparent;
+    }
 
-    <meta
-        name="theme-color"
-        content="#070909"
-    >
+    .collection-hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--works-line);
+      isolation: isolate;
+    }
 
+    .collection-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -3;
+      background:
+        linear-gradient(90deg, rgba(7, 9, 9, .98) 0%, rgba(7, 9, 9, .88) 43%, rgba(7, 9, 9, .35) 100%),
+        var(--bg-main, url("assets/images/background.png")) center / cover no-repeat;
+      filter: saturate(.72);
+    }
 
-    <link
-        rel="icon"
-        type="image/png"
-        href="/assets/images/favicon.png"
-    >
+    .collection-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 76% 46%, transparent 0 22%, rgba(7, 9, 9, .22) 54%, rgba(7, 9, 9, .68) 100%),
+        linear-gradient(180deg, rgba(7, 9, 9, .15), rgba(7, 9, 9, .72));
+    }
 
+    .collection-hero__inner {
+      width: var(--works-width);
+      margin: 0 auto;
+      padding: clamp(8rem, 14vh, 11rem) 0 clamp(5rem, 9vh, 8rem);
+      display: grid;
+      grid-template-columns: minmax(0, .86fr) minmax(360px, 1.14fr);
+      gap: clamp(3rem, 8vw, 8rem);
+      align-items: center;
+    }
 
-    <meta
-        property="og:title"
-        content="The Works — Pictura Poesis"
-    >
+    .collection-kicker,
+    .room-number,
+    .work-year,
+    .museum-label,
+    .detail-label,
+    .detail-facts dt,
+    .recording-label,
+    .image-note,
+    .collection-index a {
+      font-family: var(--works-body);
+      font-size: .68rem;
+      font-weight: 600;
+      line-height: 1.4;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
 
-    <meta
-        property="og:description"
-        content="The art, history and stories behind the music."
-    >
+    .collection-kicker,
+    .room-number,
+    .work-year,
+    .detail-label,
+    .recording-label {
+      color: var(--works-dust);
+    }
 
-    <meta
-        property="og:url"
-        content="https://pictura-poesis.com/works.html"
-    >
+    .collection-title {
+      max-width: 7ch;
+      margin: 1rem 0 1.5rem;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(5rem, 11vw, 10.5rem);
+      font-weight: 300;
+      line-height: .74;
+      letter-spacing: -.055em;
+    }
 
-    <meta
-        property="og:image"
-        content="https://pictura-poesis.com/assets/images/social-preview.jpg"
-    >
+    .collection-lead {
+      max-width: 30rem;
+      margin: 0;
+      color: var(--works-paper);
+      font-family: var(--works-display);
+      font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+      font-weight: 300;
+      line-height: 1.22;
+    }
 
-    <meta
-        property="og:type"
-        content="website"
-    >
+    .collection-instruction {
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      margin: 2.5rem 0 0;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .73rem;
+      line-height: 1.5;
+    }
 
+    .collection-instruction::before {
+      content: "";
+      width: 2.5rem;
+      height: 1px;
+      background: var(--works-line-strong);
+    }
 
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
+    .hero-exhibit {
+      position: relative;
+      width: min(100%, 570px);
+      justify-self: end;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+    .hero-exhibit__frame {
+      position: relative;
+      width: min(76%, 410px);
+      margin-left: auto;
+      padding: clamp(.65rem, 1.3vw, 1rem);
+      background: #0b0d0d;
+      border: 1px solid rgba(228, 222, 210, .25);
+      box-shadow: 0 2.2rem 6rem rgba(0, 0, 0, .72);
+      transition: transform .6s cubic-bezier(.2, .8, .2, 1), border-color .35s ease;
+    }
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap"
-        rel="stylesheet"
-    >
+    .hero-exhibit__frame::before {
+      content: "";
+      position: absolute;
+      inset: .45rem;
+      border: 1px solid rgba(228, 222, 210, .09);
+      pointer-events: none;
+      z-index: 2;
+    }
 
-    <link
-        rel="stylesheet"
-        href="assets/css/style.css"
-    >
+    .hero-exhibit__frame img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      object-position: 50% 48%;
+      filter: saturate(.72) contrast(1.06) brightness(.83);
+      transition: filter .45s ease, transform .7s ease;
+    }
 
+    .hero-exhibit__number {
+      position: absolute;
+      left: 0;
+      top: 9%;
+      z-index: -1;
+      color: rgba(228, 222, 210, .065);
+      font-family: var(--works-display);
+      font-size: clamp(9rem, 20vw, 19rem);
+      font-weight: 300;
+      line-height: .8;
+    }
+
+    .hero-exhibit__caption {
+      position: absolute;
+      left: 0;
+      bottom: 8%;
+      width: min(56%, 300px);
+      padding: 1.15rem 1.25rem 1.2rem;
+      background: rgba(7, 9, 9, .92);
+      border-left: 1px solid var(--works-dust);
+      backdrop-filter: blur(12px);
+      transition: transform .45s ease;
+    }
+
+    .hero-exhibit__caption strong {
+      display: block;
+      margin: .35rem 0 .25rem;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(1.75rem, 3vw, 2.7rem);
+      font-weight: 400;
+      line-height: .94;
+    }
+
+    .hero-exhibit__caption span:last-child {
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .7rem;
+      line-height: 1.5;
+    }
+
+    .hero-exhibit:hover .hero-exhibit__frame,
+    .hero-exhibit:focus-visible .hero-exhibit__frame {
+      transform: translateY(-.65rem) rotate(.35deg);
+      border-color: rgba(228, 222, 210, .5);
+    }
+
+    .hero-exhibit:hover .hero-exhibit__frame img,
+    .hero-exhibit:focus-visible .hero-exhibit__frame img {
+      filter: saturate(.9) contrast(1.05) brightness(.92);
+    }
+
+    .hero-exhibit:hover .hero-exhibit__caption,
+    .hero-exhibit:focus-visible .hero-exhibit__caption {
+      transform: translateX(.45rem);
+    }
+
+    .hero-exhibit:focus-visible,
+    .work-card:focus-visible,
+    .ego-song:focus-visible,
+    .detail-close:focus-visible,
+    .listen-link:focus-visible {
+      outline: 2px solid var(--works-paper);
+      outline-offset: 5px;
+    }
+
+    .collection-index-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(7, 9, 9, .92);
+      border-bottom: 1px solid var(--works-line);
+      backdrop-filter: blur(18px);
+    }
+
+    .collection-index {
+      width: var(--works-width);
+      margin: 0 auto;
+      display: flex;
+      gap: clamp(1rem, 2.8vw, 2.4rem);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .collection-index::-webkit-scrollbar {
+      display: none;
+    }
+
+    .collection-index a {
+      position: relative;
+      flex: 0 0 auto;
+      padding: 1.25rem 0 1.15rem;
+      color: var(--works-ash);
+      text-decoration: none;
+      transition: color .25s ease;
+    }
+
+    .collection-index a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 100%;
+      bottom: -1px;
+      height: 1px;
+      background: var(--works-paper);
+      transition: right .3s ease;
+    }
+
+    .collection-index a:hover,
+    .collection-index a:focus-visible {
+      color: var(--works-white);
+    }
+
+    .collection-index a:hover::after,
+    .collection-index a:focus-visible::after {
+      right: 0;
+    }
+
+    .curator-note {
+      width: var(--works-width);
+      margin: 0 auto;
+      padding: clamp(6rem, 11vw, 10rem) 0 clamp(4rem, 8vw, 7rem);
+      display: grid;
+      grid-template-columns: minmax(180px, .55fr) minmax(0, 1.45fr);
+      gap: clamp(2rem, 8vw, 8rem);
+      align-items: start;
+    }
+
+    .curator-note h2 {
+      margin: 0;
+      color: var(--works-dust);
+      font-family: var(--works-body);
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+
+    .curator-note__text {
+      max-width: 760px;
+    }
+
+    .curator-note__text p:first-child {
+      margin: 0;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(2.1rem, 4.5vw, 4.25rem);
+      font-weight: 300;
+      line-height: 1.02;
+      letter-spacing: -.025em;
+    }
+
+    .curator-note__text p:last-child {
+      max-width: 43rem;
+      margin: 1.8rem 0 0;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .82rem;
+      line-height: 1.85;
+    }
+
+    .gallery-room {
+      width: var(--works-width);
+      margin: 0 auto;
+      padding: clamp(5rem, 10vw, 9rem) 0;
+      border-top: 1px solid var(--works-line);
+    }
+
+    .room-heading {
+      display: grid;
+      grid-template-columns: minmax(100px, .38fr) minmax(0, 1.15fr) minmax(220px, .62fr);
+      gap: clamp(1.5rem, 5vw, 5rem);
+      align-items: end;
+      margin-bottom: clamp(3rem, 6vw, 6rem);
+    }
+
+    .room-heading h2 {
+      margin: 0;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(3.6rem, 7vw, 7.5rem);
+      font-weight: 300;
+      line-height: .82;
+      letter-spacing: -.045em;
+    }
+
+    .room-heading p {
+      margin: 0;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .78rem;
+      line-height: 1.75;
+    }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: clamp(1.1rem, 2.5vw, 2rem);
+      align-items: start;
+    }
+
+    .work-card {
+      grid-column: span 4;
+      min-width: 0;
+      padding: 0;
+      border: 0;
+      color: inherit;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .work-card--large {
+      grid-column: span 7;
+    }
+
+    .work-card--medium {
+      grid-column: span 5;
+    }
+
+    .work-card--wide {
+      grid-column: span 8;
+    }
+
+    .work-card--offset {
+      margin-top: clamp(2rem, 8vw, 7rem);
+    }
+
+    .work-card__image {
+      position: relative;
+      overflow: hidden;
+      margin: 0;
+      background:
+        linear-gradient(135deg, rgba(228, 222, 210, .06), transparent 55%),
+        #0d1010;
+      border: 1px solid var(--works-line);
+    }
+
+    .work-card__image::after {
+      content: "View interpretation";
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      padding: .58rem .72rem;
+      color: var(--works-white);
+      background: rgba(7, 9, 9, .9);
+      font-family: var(--works-body);
+      font-size: .59rem;
+      font-weight: 600;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(.5rem);
+      transition: opacity .35s ease, transform .35s ease;
+    }
+
+    .work-card__image img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      filter: saturate(.7) contrast(1.04) brightness(.86);
+      transition: transform .75s cubic-bezier(.2, .8, .2, 1), filter .45s ease;
+    }
+
+    .work-card--landscape .work-card__image img,
+    .work-card--wide .work-card__image img {
+      aspect-ratio: 16 / 10;
+    }
+
+    .work-card--tall .work-card__image img {
+      aspect-ratio: 3 / 5;
+    }
+
+    .work-card:hover .work-card__image img,
+    .work-card:focus-visible .work-card__image img {
+      transform: scale(1.025);
+      filter: saturate(.9) contrast(1.03) brightness(.94);
+    }
+
+    .work-card:hover .work-card__image::after,
+    .work-card:focus-visible .work-card__image::after {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .work-card__caption {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      padding: 1.25rem 0 0;
+    }
+
+    .work-card__caption h3 {
+      margin: .32rem 0 .35rem;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(1.75rem, 3vw, 2.65rem);
+      font-weight: 400;
+      line-height: .98;
+    }
+
+    .work-card__caption p {
+      margin: 0;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .67rem;
+      line-height: 1.5;
+    }
+
+    .work-card__arrow {
+      color: var(--works-dust);
+      font-family: var(--works-display);
+      font-size: 1.5rem;
+      line-height: 1;
+      transition: transform .3s ease, color .3s ease;
+    }
+
+    .work-card:hover .work-card__arrow,
+    .work-card:focus-visible .work-card__arrow {
+      color: var(--works-white);
+      transform: translate(.2rem, -.2rem);
+    }
+
+    .rights-plaque {
+      min-height: clamp(340px, 42vw, 570px);
+      display: grid;
+      place-items: center;
+      padding: 2.5rem;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 36%, rgba(159, 145, 128, .09), transparent 34%),
+        repeating-linear-gradient(135deg, rgba(228, 222, 210, .017) 0 1px, transparent 1px 7px),
+        #0c0f0f;
+    }
+
+    .rights-plaque::after {
+      content: none;
+    }
+
+    .rights-plaque__inner {
+      max-width: 18rem;
+    }
+
+    .rights-plaque__mark {
+      display: block;
+      margin-bottom: 1.4rem;
+      color: rgba(228, 222, 210, .15);
+      font-family: var(--works-display);
+      font-size: 4.5rem;
+      line-height: 1;
+    }
+
+    .rights-plaque strong {
+      display: block;
+      color: var(--works-paper);
+      font-family: var(--works-display);
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .rights-plaque small {
+      display: block;
+      margin-top: 1rem;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .65rem;
+      line-height: 1.65;
+    }
+
+    .context-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 2;
+      padding: .55rem .7rem;
+      color: var(--works-paper);
+      background: rgba(7, 9, 9, .88);
+      border: 1px solid var(--works-line);
+      font-family: var(--works-body);
+      font-size: .56rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .ego-exhibit {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(320px, .65fr);
+      border: 1px solid var(--works-line);
+      background: #0b0e0e;
+    }
+
+    .ego-exhibit__image {
+      position: relative;
+      min-height: clamp(430px, 58vw, 720px);
+      overflow: hidden;
+    }
+
+    .ego-exhibit__image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(.64) contrast(1.06) brightness(.78);
+      transition: filter .6s ease, transform 1s ease;
+    }
+
+    .ego-exhibit:hover .ego-exhibit__image img {
+      filter: saturate(.78) contrast(1.04) brightness(.86);
+      transform: scale(1.012);
+    }
+
+    .ego-exhibit__image figcaption {
+      position: absolute;
+      left: 1.5rem;
+      bottom: 1.5rem;
+      max-width: 22rem;
+      padding: 1rem 1.15rem;
+      color: var(--works-paper);
+      background: rgba(7, 9, 9, .9);
+      border-left: 1px solid var(--works-dust);
+      font-family: var(--works-body);
+      font-size: .66rem;
+      line-height: 1.6;
+    }
+
+    .ego-exhibit__content {
+      display: flex;
+      flex-direction: column;
+      padding: clamp(2rem, 4vw, 4rem);
+    }
+
+    .ego-exhibit__content h3 {
+      margin: .65rem 0 .8rem;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(3rem, 5vw, 5.4rem);
+      font-weight: 300;
+      line-height: .82;
+      letter-spacing: -.04em;
+    }
+
+    .ego-exhibit__content > p {
+      margin: 0 0 2.5rem;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .75rem;
+      line-height: 1.75;
+    }
+
+    .ego-songs {
+      margin-top: auto;
+      border-top: 1px solid var(--works-line);
+    }
+
+    .ego-song {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr auto;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.4rem 0;
+      border: 0;
+      border-bottom: 1px solid var(--works-line);
+      color: inherit;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .ego-song span:first-child {
+      color: var(--works-dust);
+      font-family: var(--works-body);
+      font-size: .61rem;
+      letter-spacing: .16em;
+    }
+
+    .ego-song strong {
+      color: var(--works-paper);
+      font-family: var(--works-display);
+      font-size: clamp(1.3rem, 2.2vw, 1.85rem);
+      font-weight: 400;
+      line-height: 1;
+    }
+
+    .ego-song i {
+      color: var(--works-ash);
+      font-family: var(--works-display);
+      font-size: 1.25rem;
+      font-style: normal;
+      transition: transform .3s ease, color .3s ease;
+    }
+
+    .ego-song:hover i,
+    .ego-song:focus-visible i {
+      color: var(--works-white);
+      transform: translate(.2rem, -.2rem);
+    }
+
+    .room-spacer {
+      height: clamp(3rem, 7vw, 6rem);
+    }
+
+    .collection-coda {
+      position: relative;
+      min-height: 76svh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 7rem 6vw;
+      text-align: center;
+      border-top: 1px solid var(--works-line);
+      isolation: isolate;
+    }
+
+    .collection-coda::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        linear-gradient(rgba(7, 9, 9, .7), rgba(7, 9, 9, .92)),
+        var(--bg-main, url("assets/images/background.png")) center / cover no-repeat;
+      filter: grayscale(.3);
+    }
+
+    .collection-coda::after {
+      content: "";
+      position: absolute;
+      inset: 14%;
+      z-index: -1;
+      border: 1px solid rgba(228, 222, 210, .08);
+    }
+
+    .collection-coda__inner {
+      max-width: 900px;
+    }
+
+    .collection-coda h2 {
+      margin: 1rem 0 1.5rem;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(4rem, 9vw, 9rem);
+      font-weight: 300;
+      line-height: .82;
+      letter-spacing: -.045em;
+    }
+
+    .collection-coda p {
+      max-width: 41rem;
+      margin: 0 auto;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .83rem;
+      line-height: 1.85;
+    }
+
+    .work-dialog {
+      width: min(1180px, calc(100% - 4vw));
+      max-width: none;
+      max-height: min(90svh, 900px);
+      margin: auto;
+      padding: 0;
+      overflow: hidden;
+      color: var(--works-paper);
+      background: #0b0e0e;
+      border: 1px solid rgba(228, 222, 210, .28);
+      box-shadow: 0 3rem 9rem rgba(0, 0, 0, .9);
+    }
+
+    .work-dialog[open] {
+      animation: dialog-in .35s ease both;
+    }
+
+    .work-dialog::backdrop {
+      background: rgba(0, 0, 0, .86);
+      backdrop-filter: blur(8px);
+    }
+
+    @keyframes dialog-in {
+      from { opacity: 0; transform: translateY(1rem) scale(.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .detail-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      z-index: 8;
+      width: 2.7rem;
+      height: 2.7rem;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--works-line-strong);
+      border-radius: 50%;
+      color: var(--works-white);
+      background: rgba(7, 9, 9, .88);
+      font-family: var(--works-body);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform .3s ease, border-color .3s ease;
+    }
+
+    .detail-close:hover {
+      transform: rotate(90deg);
+      border-color: var(--works-paper);
+    }
+
+    .work-detail {
+      height: min(90svh, 900px);
+      display: grid;
+      grid-template-columns: minmax(330px, .78fr) minmax(0, 1.22fr);
+    }
+
+    .work-detail__visual {
+      position: relative;
+      min-height: 100%;
+      overflow: hidden;
+      background: #090b0b;
+      border-right: 1px solid var(--works-line);
+    }
+
+    .work-detail__visual img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: saturate(.75) contrast(1.03) brightness(.84);
+    }
+
+    .work-detail__visual--contain img {
+      object-fit: contain;
+      padding: clamp(1rem, 3vw, 2.5rem);
+    }
+
+    .work-detail__visual--landscape img {
+      object-position: center;
+    }
+
+    .work-detail__visual .context-badge {
+      top: auto;
+      right: auto;
+      left: 1rem;
+      bottom: 1rem;
+    }
+
+    .work-detail__visual .rights-plaque {
+      height: 100%;
+      min-height: 100%;
+      border: 0;
+    }
+
+    .work-detail__content {
+      overflow-y: auto;
+      padding: clamp(3.5rem, 6vw, 6rem) clamp(2rem, 5vw, 5.5rem) 4rem;
+      scrollbar-color: rgba(228, 222, 210, .28) transparent;
+    }
+
+    .work-detail__content h2 {
+      max-width: 11ch;
+      margin: .7rem 0 1rem;
+      color: var(--works-white);
+      font-family: var(--works-display);
+      font-size: clamp(3.3rem, 6vw, 6.8rem);
+      font-weight: 300;
+      line-height: .82;
+      letter-spacing: -.045em;
+    }
+
+    .work-detail__art-title {
+      margin: 0;
+      color: var(--works-paper);
+      font-family: var(--works-display);
+      font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+      font-style: italic;
+      line-height: 1.3;
+    }
+
+    .detail-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin: 2.5rem 0;
+      padding: 1.4rem 0;
+      border-top: 1px solid var(--works-line);
+      border-bottom: 1px solid var(--works-line);
+    }
+
+    .detail-facts div {
+      min-width: 0;
+    }
+
+    .detail-facts dt {
+      margin: 0 0 .45rem;
+      color: var(--works-dust);
+      font-size: .57rem;
+    }
+
+    .detail-facts dd {
+      margin: 0;
+      color: var(--works-paper);
+      font-family: var(--works-body);
+      font-size: .7rem;
+      line-height: 1.55;
+    }
+
+    .detail-section {
+      margin-top: 2.4rem;
+    }
+
+    .detail-section h3 {
+      margin: 0 0 .8rem;
+      color: var(--works-dust);
+      font-family: var(--works-body);
+      font-size: .61rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+
+    .detail-section p {
+      margin: 0;
+      color: var(--works-ash);
+      font-family: var(--works-body);
+      font-size: .78rem;
+      line-height: 1.82;
+    }
+
+    .recordings {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .recording {
+      display: grid;
+      grid-template-columns: minmax(130px, .55fr) minmax(0, 1.45fr);
+      gap: 1rem;
+      align-items: center;
+      padding: 1rem 0;
+      border-top: 1px solid var(--works-line);
+    }
+
+    .recording:last-child {
+      border-bottom: 1px solid var(--works-line);
+    }
+
+    .recording strong {
+      display: block;
+      margin-top: .25rem;
+      color: var(--works-paper);
+      font-family: var(--works-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      line-height: 1.1;
+    }
+
+    .listen-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: .5rem;
+    }
+
+    .listen-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .55rem .7rem;
+      color: var(--works-paper);
+      border: 1px solid var(--works-line);
+      font-family: var(--works-body);
+      font-size: .59rem;
+      font-weight: 600;
+      letter-spacing: .09em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background .25s ease, border-color .25s ease, color .25s ease;
+    }
+
+    .listen-link::after {
+      content: "↗";
+      color: var(--works-dust);
+    }
+
+    .listen-link:hover {
+      color: #090b0b;
+      background: var(--works-paper);
+      border-color: var(--works-paper);
+    }
+
+    .art-credit {
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+      color: #707571;
+      border-top: 1px solid rgba(228, 222, 210, .08);
+      font-family: var(--works-body);
+      font-size: .59rem;
+      line-height: 1.65;
+    }
+
+    .art-credit a {
+      color: var(--works-ash);
+      text-underline-offset: .2em;
+    }
+
+    .work-panels {
+      display: none;
+    }
+
+    .image-fallback img {
+      display: none;
+    }
+
+    .image-fallback::before {
+      content: "Artwork image unavailable";
+      min-height: 320px;
+      display: grid;
+      place-items: center;
+      padding: 2rem;
+      color: var(--works-ash);
+      background: #0d1010;
+      font-family: var(--works-body);
+      font-size: .65rem;
+      letter-spacing: .16em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 960px) {
+      .collection-hero__inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+
+      .collection-title {
+        font-size: clamp(4.5rem, 12vw, 7rem);
+      }
+
+      .room-heading {
+        grid-template-columns: 120px 1fr;
+      }
+
+      .room-heading p {
+        grid-column: 2;
+      }
+
+      .work-card,
+      .work-card--large,
+      .work-card--medium,
+      .work-card--wide {
+        grid-column: span 6;
+      }
+
+      .work-card--offset {
+        margin-top: 0;
+      }
+
+      .ego-exhibit {
+        grid-template-columns: 1fr;
+      }
+
+      .ego-exhibit__image {
+        min-height: 58vw;
+      }
+
+      .work-detail {
+        grid-template-columns: .82fr 1.18fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      :root {
+        --works-width: min(100% - 2rem, 1220px);
+      }
+
+      .collection-hero {
+        min-height: auto;
+      }
+
+      .collection-hero__inner {
+        grid-template-columns: 1fr;
+        padding-top: 8.5rem;
+      }
+
+      .collection-title {
+        max-width: none;
+        font-size: clamp(4.5rem, 25vw, 7.5rem);
+      }
+
+      .hero-exhibit {
+        width: 100%;
+        justify-self: stretch;
+        margin-top: 1rem;
+      }
+
+      .hero-exhibit__frame {
+        width: 76%;
+      }
+
+      .hero-exhibit__caption {
+        width: 58%;
+      }
+
+      .collection-index-wrap {
+        top: 0;
+      }
+
+      .curator-note {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .room-heading {
+        grid-template-columns: 1fr;
+      }
+
+      .room-heading p {
+        grid-column: auto;
+        max-width: 28rem;
+      }
+
+      .room-heading h2 {
+        font-size: clamp(4rem, 20vw, 6rem);
+      }
+
+      .work-card,
+      .work-card--large,
+      .work-card--medium,
+      .work-card--wide {
+        grid-column: 1 / -1;
+      }
+
+      .work-card__image img,
+      .work-card--tall .work-card__image img {
+        aspect-ratio: 4 / 5;
+      }
+
+      .work-card--landscape .work-card__image img,
+      .work-card--wide .work-card__image img {
+        aspect-ratio: 16 / 11;
+      }
+
+      .rights-plaque {
+        min-height: 380px;
+      }
+
+      .ego-exhibit__image {
+        min-height: 72vw;
+      }
+
+      .collection-coda::after {
+        inset: 5%;
+      }
+
+      .work-dialog {
+        width: 100%;
+        height: 100svh;
+        max-height: none;
+        border: 0;
+      }
+
+      .work-detail {
+        height: 100svh;
+        display: block;
+        overflow-y: auto;
+      }
+
+      .work-detail__visual {
+        min-height: 55svh;
+        height: 55svh;
+        border-right: 0;
+        border-bottom: 1px solid var(--works-line);
+      }
+
+      .work-detail__content {
+        overflow: visible;
+        padding: 3.2rem 1.25rem 4rem;
+      }
+
+      .work-detail__content h2 {
+        font-size: clamp(3.4rem, 18vw, 5.5rem);
+      }
+
+      .detail-facts {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .recording {
+        grid-template-columns: 1fr;
+      }
+
+      .listen-links {
+        justify-content: flex-start;
+      }
+
+      .detail-close {
+        position: fixed;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
+<body class="works-page">
+  <header class="site-header">
+    <a class="header-logo" href="index.html" aria-label="Pictura Poesis home">
+      <img src="assets/images/logo.png" alt="Pictura Poesis">
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      <a class="nav-active" href="works.html" aria-current="page">Works</a>
+      <a href="index.html#music">Music</a>
+      <a href="history.html">History</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <details class="mobile-menu">
+      <summary>Menu</summary>
+      <nav aria-label="Mobile navigation">
+        <a class="nav-active" href="works.html" aria-current="page">Works</a>
+        <a href="index.html#music">Music</a>
+        <a href="history.html">History</a>
+        <a href="index.html#contact">Contact</a>
+      </nav>
+    </details>
+  </header>
 
+  <main class="works-museum">
+    <section class="collection-hero" id="room-2022" aria-labelledby="works-title">
+      <div class="collection-hero__inner">
+        <div class="collection-hero__copy">
+          <p class="collection-kicker">The collection · 2013 to present</p>
+          <h1 class="collection-title" id="works-title">The Works.</h1>
+          <p class="collection-lead">Paintings interpreted through music.</p>
+          <p class="collection-instruction">Select a work to enter its story and hear the interpretation.</p>
+        </div>
 
-<body>
-
-    <header class="site-header">
-
-        <a
-            class="header-logo"
-            href="index.html"
-            aria-label="Pictura Poesis home"
-        >
+        <button class="hero-exhibit" type="button" data-work="death-and-the-maiden" aria-haspopup="dialog">
+          <span class="hero-exhibit__number" aria-hidden="true">01</span>
+          <span class="hero-exhibit__frame">
             <img
-                src="assets/images/logo.png"
-                alt="Pictura Poesis"
-            >
-        </a>
-
-
-        <nav
-            class="desktop-nav"
-            aria-label="Main navigation"
-        >
-            <a class="nav-active" href="works.html">Works</a>
-            <a href="index.html#music">Music</a>
-            <a href="history.html">History</a>
-            <a href="index.html#contact">Contact</a>
-        </nav>
-
-
-        <details class="mobile-menu">
-
-            <summary>
-                Menu
-            </summary>
-
-            <nav aria-label="Mobile navigation">
-                <a href="works.html">Works</a>
-                <a href="index.html#music">Music</a>
-                <a href="history.html">History</a>
-                <a href="index.html#contact">Contact</a>
-            </nav>
-
-        </details>
-
-    </header>
-
-
-
-    <main>
-
-        <!-- HERO -->
-
-        <section class="page-hero page-hero--works">
-
-            <div class="page-hero-content">
-
-                <p class="eyebrow">
-                    The Gallery
-                </p>
-
-                <h1 class="page-title">
-                    The<br>
-                    Works.
-                </h1>
-
-                <p class="page-lead">
-                    The image is not decoration.
-                    It is where the music begins.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- MANIFESTO -->
-
-        <section class="works-manifesto section">
-
-            <div class="works-manifesto-title">
-
-                <p class="eyebrow">
-                    Ut pictura poesis
-                </p>
-
-                <h2>
-                    From image<br>
-                    to sound.
-                </h2>
-
-            </div>
-
-
-            <div class="works-manifesto-copy">
-
-                <p class="lead-small">
-                    Paintings, literature, history and mythology
-                    are used as starting points rather than scenery.
-                </p>
-
-                <p>
-                    A subject is isolated from its original work,
-                    examined critically and placed in a wider historical
-                    or social context before being translated into
-                    lyrics and music.
-                </p>
-
-                <p>
-                    The music then amplifies the atmosphere of that
-                    subject — orchestration, extreme metal and individual
-                    musical voices combining into a world around the
-                    original image or story.
-                </p>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- METHOD -->
-
-        <section class="method-section">
-
-            <div class="method-grid">
-
-                <article class="method-step">
-
-                    <span class="method-number">
-                        I
-                    </span>
-
-                    <p class="eyebrow">
-                        Source
-                    </p>
-
-                    <h3>
-                        Observe.
-                    </h3>
-
-                    <p>
-                        A painting, poem, myth, person or historical
-                        event creates the starting point.
-                    </p>
-
-                </article>
-
-
-                <article class="method-step">
-
-                    <span class="method-number">
-                        II
-                    </span>
-
-                    <p class="eyebrow">
-                        Context
-                    </p>
-
-                    <h3>
-                        Question.
-                    </h3>
-
-                    <p>
-                        The work is separated from the obvious reading
-                        and examined from different perspectives.
-                    </p>
-
-                </article>
-
-
-                <article class="method-step">
-
-                    <span class="method-number">
-                        III
-                    </span>
-
-                    <p class="eyebrow">
-                        Translation
-                    </p>
-
-                    <h3>
-                        Transform.
-                    </h3>
-
-                    <p>
-                        Lyrics, orchestration and extreme metal create
-                        a new musical environment around the subject.
-                    </p>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- MUSIC ARCHIVE -->
-
-        <section class="works-archive section">
-
-            <header class="section-heading">
-
-                <p class="eyebrow">
-                    Musical archive
-                </p>
-
-                <h2>
-                    The catalogue.
-                </h2>
-
-                <p>
-                    The detailed source archive is being reconstructed
-                    track by track.
-                </p>
-
-            </header>
-
-
-
-            <!-- MISERIAE MUNDI -->
-
-            <article class="work-release">
-
-                <div class="work-release-art">
-
-                    <img
-                        src="assets/images/miseriae-mundi.jpg"
-                        alt="Miseriae Mundi"
-                        loading="lazy"
-                    >
-
-                </div>
-
-
-                <div class="work-release-content">
-
-                    <p class="release-type">
-                        Full Length · 2017
-                    </p>
-
-                    <h3>
-                        Miseriae Mundi
-                    </h3>
-
-                    <p>
-                        War, mythology, Dutch history, mortality and
-                        the transience of human achievement form the
-                        conceptual landscape of the record.
-                    </p>
-
-
-                    <ol class="track-list">
-
-                        <li>
-                            <span>01</span>
-                            Legions of Doom
-                        </li>
-
-                        <li>
-                            <span>02</span>
-                            Holy Whore
-                        </li>
-
-                        <li>
-                            <span>03</span>
-                            The Paralytic Child
-                        </li>
-
-                        <li>
-                            <span>04</span>
-                            Visions of Death
-                        </li>
-
-                        <li>
-                            <span>05</span>
-                            Persephone
-                        </li>
-
-                        <li>
-                            <span>06</span>
-                            Nightfall
-                        </li>
-
-                        <li>
-                            <span>07</span>
-                            The Bockereyders
-                        </li>
-
-                        <li>
-                            <span>08</span>
-                            De Witt
-                        </li>
-
-                        <li>
-                            <span>09</span>
-                            Plains of Existence
-                        </li>
-
-                        <li>
-                            <span>10</span>
-                            Father of Destruction
-                        </li>
-
-                    </ol>
-
-
-                    <a
-                        class="text-link"
-                        href="https://open.spotify.com/album/6PkFPd2xws554ISR9UhCnM"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Listen on Spotify
-                    </a>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- NIGHTMARES -->
-
-            <article class="work-release work-release-reverse">
-
-                <div class="work-release-art">
-
-                    <img
-                        src="assets/images/nightmares.jpg"
-                        alt="Nightmares"
-                        loading="lazy"
-                    >
-
-                </div>
-
-
-                <div class="work-release-content">
-
-                    <p class="release-type">
-                        Full Length · 2018
-                    </p>
-
-                    <h3>
-                        Nightmares
-                    </h3>
-
-                    <p>
-                        Earlier works return in revised forms,
-                        reorchestrated and reframed through the
-                        band's later sound.
-                    </p>
-
-
-                    <ol class="track-list">
-
-                        <li>
-                            <span>01</span>
-                            Nightmares
-                        </li>
-
-                        <li>
-                            <span>02</span>
-                            The Paralytic Child
-                        </li>
-
-                        <li>
-                            <span>03</span>
-                            Demonic Delusions
-                        </li>
-
-                        <li>
-                            <span>04</span>
-                            The Raft of Medusa
-                        </li>
-
-                        <li>
-                            <span>05</span>
-                            L'immortalité
-                        </li>
-
-                        <li>
-                            <span>06</span>
-                            Demonic Delusions — Piano Version
-                        </li>
-
-                        <li>
-                            <span>07</span>
-                            L'immortalité — Orchestral Version
-                        </li>
-
-                    </ol>
-
-
-                    <a
-                        class="text-link"
-                        href="https://open.spotify.com/album/3AnXdnMC1mDPxjdzt0FBMb"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Listen on Spotify
-                    </a>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- DEATH AND THE MAIDEN -->
-
-            <article class="work-release">
-
-                <div class="work-release-art">
-
-                    <img
-                        src="assets/images/deathandthemaiden.jpg"
-                        alt="Death and the Maiden"
-                        loading="lazy"
-                    >
-
-                </div>
-
-
-                <div class="work-release-content">
-
-                    <p class="release-type">
-                        Single · 2022
-                    </p>
-
-                    <h3>
-                        Death and<br>
-                        the Maiden
-                    </h3>
-
-                    <p>
-                        An early composition revisited as a completely
-                        new recording, connecting the first period of
-                        Pictura Poesis with its later sound.
-                    </p>
-
-                    <div class="single-track">
-                        Death and the Maiden · 04:45
-                    </div>
-
-
-                    <a
-                        class="text-link"
-                        href="https://open.spotify.com/album/4mwRuoXnrW4520mu24LD81"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Listen on Spotify
-                    </a>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- EARLY ARCHIVE -->
-
-            <div class="works-early">
-
-                <article class="early-work">
-
-                    <img
-                        src="assets/images/demonic-delusions.jpg"
-                        alt="Demonic Delusions"
-                        loading="lazy"
-                    >
-
-                    <div>
-
-                        <p class="release-type">
-                            EP · 2014
-                        </p>
-
-                        <h3>
-                            Demonic Delusions
-                        </h3>
-
-                        <p>
-                            Five tracks from the band's early period.
-                            Source and artwork notes will be added
-                            to the gallery archive.
-                        </p>
-
-                    </div>
-
-                </article>
-
-
-
-                <article class="early-work">
-
-                    <img
-                        src="assets/images/in-deaths-embrace.jpg"
-                        alt="In Death's Embrace"
-                        loading="lazy"
-                    >
-
-                    <div>
-
-                        <p class="release-type">
-                            Demo · 2013
-                        </p>
-
-                        <h3>
-                            In Death's Embrace
-                        </h3>
-
-                        <ol class="compact-track-list">
-
-                            <li>Intro</li>
-                            <li>The Face of Death</li>
-                            <li>Death and the Maiden</li>
-                            <li>The Raft of Medusa</li>
-
-                        </ol>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ARCHIVE CTA -->
-
-        <section class="archive-callout">
-
-            <div class="archive-callout-inner">
-
-                <p class="eyebrow">
-                    The archive is growing
-                </p>
-
-                <h2>
-                    Every track has<br>
-                    another layer.
-                </h2>
-
-                <p class="lead-small">
-                    Original source works, artists, dates and
-                    interpretations will be added to this gallery
-                    as the archive is reconstructed.
-                </p>
-
-                <a
-                    class="button button-secondary"
-                    href="history.html"
-                >
-                    Explore the history
-                </a>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-
-    <footer class="footer">
-
-        <a
-            class="footer-logo"
-            href="index.html"
-        >
+              src="assets/images/works/death-and-the-maiden.jpg"
+              alt="Death and the Woman by Hans Baldung Grien"
+              fetchpriority="high">
+          </span>
+          <span class="hero-exhibit__caption">
+            <span class="work-year">Current entrance · 2022</span>
+            <strong>Death and the Maiden</strong>
+            <span>Hans Baldung Grien · 1518 to 1520</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <div class="collection-index-wrap">
+      <nav class="collection-index" aria-label="Collection index">
+        <a href="#room-2022">2022</a>
+        <a href="#room-2018">2018</a>
+        <a href="#room-2017">2017</a>
+        <a href="#room-archive">Archive</a>
+        <a href="#room-2014">2014</a>
+        <a href="#room-2013">2013</a>
+      </nav>
+    </div>
+
+    <section class="curator-note" aria-labelledby="collection-note-title">
+      <h2 id="collection-note-title">About the collection</h2>
+      <div class="curator-note__text">
+        <p>Every song begins somewhere outside music.</p>
+        <p>A painting, an image or a story preserved in pigment becomes the first note. This collection presents each song once, with every released version gathered inside its detail view. All reproduced images are public domain or openly licensed. Where a modern source work remains protected, the exhibition leaves the image absent instead of replacing it.</p>
+      </div>
+    </section>
+
+    <section class="gallery-room" id="room-2018" aria-labelledby="heading-2018">
+      <div class="room-heading">
+        <p class="room-number">Room I · Five works</p>
+        <h2 id="heading-2018">Nightmares.</h2>
+        <p>A new voice entered the collection. New work stood beside earlier compositions, reinterpreted rather than simply repeated.</p>
+      </div>
+
+      <div class="works-grid">
+        <button class="work-card work-card--large work-card--landscape" type="button" data-work="nightmares" aria-haspopup="dialog">
+          <figure class="work-card__image">
             <img
-                src="assets/images/logo.png"
-                alt="Pictura Poesis"
-            >
-        </a>
+              src="assets/images/works/nightmare.jpg"
+              alt="The Nightmare by Henry Fuseli"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2018</span>
+              <h3>Nightmares</h3>
+              <p>Henry Fuseli · 1781</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
 
-        <p class="footer-tagline">
-            Art · History · Decay · Fire
-        </p>
+        <button class="work-card work-card--medium work-card--offset work-card--landscape" type="button" data-work="paralytic-child" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <span class="context-badge">Context image</span>
+            <img
+              src="assets/images/works/muybridge-plate-539.jpg"
+              alt="Eadweard Muybridge motion study of a child walking on hands and feet"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017 · 2018</span>
+              <h3>The Paralytic Child</h3>
+              <p>After Francis Bacon · 1961</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
 
-        <small>
-            © 2026 Pictura Poesis
-        </small>
+        <button class="work-card work-card--medium work-card--tall" type="button" data-work="demonic-delusions" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/vitruvian-man.jpg"
+              alt="Vitruvian Man by Leonardo da Vinci"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2014 · 2018</span>
+              <h3>Demonic Delusions</h3>
+              <p>Leonardo da Vinci · circa 1490</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
 
-    </footer>
+        <button class="work-card work-card--large work-card--offset work-card--landscape" type="button" data-work="raft-of-medusa" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/raft-of-medusa.jpg"
+              alt="The Raft of the Medusa by Théodore Géricault"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2013 · 2018</span>
+              <h3>The Raft of Medusa</h3>
+              <p>Théodore Géricault · 1818 to 1819</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
 
+        <button class="work-card work-card--medium work-card--tall" type="button" data-work="limmortalite" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/limmortalite.jpg"
+              alt="L'immortalité by Xavier Mellery"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2014 · 2018</span>
+              <h3>L'immortalité</h3>
+              <p>Xavier Mellery · circa 1890</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section class="gallery-room" id="room-2017" aria-labelledby="heading-2017">
+      <div class="room-heading">
+        <p class="room-number">Room II · Nine works</p>
+        <h2 id="heading-2017">Miseriae Mundi.</h2>
+        <p>The first full-length expanded the collection into war, religion, mythology, Dutch history and human isolation.</p>
+      </div>
+
+      <article class="ego-exhibit" aria-labelledby="ego-title">
+        <figure class="ego-exhibit__image">
+          <img
+            src="assets/images/works/battle-of-waterloo.jpg"
+            alt="The Battle of Waterloo by William Sadler II"
+            loading="lazy">
+          <figcaption><em>The Battle of Waterloo</em> · William Sadler II · 1815. One painting, interpreted across three songs.</figcaption>
+        </figure>
+        <div class="ego-exhibit__content">
+          <span class="work-year">Ego Sum Bellum · 2017</span>
+          <h3 id="ego-title">One image.<br>Three parts.</h3>
+          <p>The Waterloo panorama became a triptych about the machinery, experience and legacy of war.</p>
+          <div class="ego-songs">
+            <button class="ego-song" type="button" data-work="legions-of-doom" aria-haspopup="dialog">
+              <span>I</span>
+              <strong>Legions of Doom</strong>
+              <i aria-hidden="true">↗</i>
+            </button>
+            <button class="ego-song" type="button" data-work="visions-of-death" aria-haspopup="dialog">
+              <span>II</span>
+              <strong>Visions of Death</strong>
+              <i aria-hidden="true">↗</i>
+            </button>
+            <button class="ego-song" type="button" data-work="father-of-destruction" aria-haspopup="dialog">
+              <span>III</span>
+              <strong>Father of Destruction</strong>
+              <i aria-hidden="true">↗</i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <div class="room-spacer" aria-hidden="true"></div>
+
+      <div class="works-grid">
+        <button class="work-card work-card--medium work-card--tall" type="button" data-work="holy-whore" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/penitent-magdalene.jpg"
+              alt="The Penitent Magdalene by Guido Reni"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017</span>
+              <h3>Holy Whore</h3>
+              <p>Guido Reni · circa 1635</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+
+        <button class="work-card work-card--large work-card--offset work-card--landscape" type="button" data-work="persephone" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/return-of-persephone.jpg"
+              alt="The Return of Persephone by Frederic Leighton"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017</span>
+              <h3>Persephone</h3>
+              <p>Frederic Leighton · 1891</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+
+        <button class="work-card work-card--medium" type="button" data-work="nightfall" aria-haspopup="dialog">
+          <figure class="work-card__image rights-plaque">
+            <span class="rights-plaque__inner">
+              <span class="rights-plaque__mark" aria-hidden="true">N</span>
+              <strong>Image intentionally absent</strong>
+              <small>The source painting remains protected by copyright.</small>
+            </span>
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017</span>
+              <h3>Nightfall</h3>
+              <p>Harry Peerboom · De Bokkenrijder</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+
+        <button class="work-card work-card--large work-card--landscape" type="button" data-work="bockereyders" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <span class="context-badge">Historical context</span>
+            <img
+              src="assets/images/works/bockereyder-poster.jpg"
+              alt="1919 theatre poster De Bokkenrijder of het skelet by Theo Molkenboer"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017</span>
+              <h3>The Bockereyders</h3>
+              <p>Folklore · public-domain context image</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+
+        <button class="work-card work-card--large work-card--offset work-card--landscape" type="button" data-work="de-witt" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/de-witt.jpg"
+              alt="The murder of the De Witt brothers by Romeyn de Hooghe"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017</span>
+              <h3>De Witt</h3>
+              <p>Romeyn de Hooghe · 1672</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+
+        <button class="work-card work-card--medium" type="button" data-work="plains-of-existence" aria-haspopup="dialog">
+          <figure class="work-card__image rights-plaque">
+            <span class="rights-plaque__inner">
+              <span class="rights-plaque__mark" aria-hidden="true">P</span>
+              <strong>Image intentionally absent</strong>
+              <small>Giorgio de Chirico's work remains protected by copyright.</small>
+            </span>
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2017</span>
+              <h3>Plains of Existence</h3>
+              <p>Giorgio de Chirico · circa 1924</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section class="gallery-room" id="room-archive" aria-labelledby="heading-archive">
+      <div class="room-heading">
+        <p class="room-number">Archive · One work</p>
+        <h2 id="heading-archive">Unreleased.</h2>
+        <p>Not every interpretation became part of an official release. It still belongs to the collection.</p>
+      </div>
+
+      <div class="works-grid">
+        <button class="work-card work-card--wide work-card--landscape" type="button" data-work="descendants" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/tower-of-babel.jpg"
+              alt="The Tower of Babel by Pieter Bruegel the Elder"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">Archive · Art Rocks</span>
+              <h3>The Descendants</h3>
+              <p>Pieter Bruegel the Elder · 1563</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section class="gallery-room" id="room-2014" aria-labelledby="heading-2014">
+      <div class="room-heading">
+        <p class="room-number">Room III · Two works</p>
+        <h2 id="heading-2014">Demonic Delusions.</h2>
+        <p>The early collection became darker, drawing from myth and from one of modern art's most direct images of fear.</p>
+      </div>
+
+      <div class="works-grid">
+        <button class="work-card work-card--large work-card--landscape" type="button" data-work="wrath-of-diana" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/diana-and-actaeon.jpg"
+              alt="Diana and Actaeon by Giuseppe Cesari"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2014</span>
+              <h3>The Wrath of Diana</h3>
+              <p>Giuseppe Cesari · circa 1602 to 1603</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+
+        <button class="work-card work-card--medium work-card--offset work-card--tall" type="button" data-work="screams-of-silence" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/the-scream.jpg"
+              alt="The Scream by Edvard Munch"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2014</span>
+              <h3>Screams of Silence</h3>
+              <p>Edvard Munch · 1893</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section class="gallery-room" id="room-2013" aria-labelledby="heading-2013">
+      <div class="room-heading">
+        <p class="room-number">Room IV · One work</p>
+        <h2 id="heading-2013">The first image.</h2>
+        <p>The Face of Death was the first composition. Together with Death and the Maiden and The Raft of Medusa, it formed the original proof of concept.</p>
+      </div>
+
+      <div class="works-grid">
+        <button class="work-card work-card--medium work-card--tall" type="button" data-work="face-of-death" aria-haspopup="dialog">
+          <figure class="work-card__image">
+            <img
+              src="assets/images/works/death-and-the-miser.jpg"
+              alt="Death and the Miser by Hieronymus Bosch"
+              loading="lazy">
+          </figure>
+          <div class="work-card__caption">
+            <div>
+              <span class="work-year">2013</span>
+              <h3>The Face of Death</h3>
+              <p>Hieronymus Bosch · circa 1485 to 1490</p>
+            </div>
+            <span class="work-card__arrow" aria-hidden="true">↗</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <section class="collection-coda" aria-labelledby="coda-title">
+      <div class="collection-coda__inner">
+        <p class="collection-kicker">The method remains</p>
+        <h2 id="coda-title">Look again.</h2>
+        <p>A work catches the eye. Its story opens. Research becomes words, words become music, and an image receives another life in sound.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="footer-logo" href="index.html">
+      <img src="assets/images/logo.png" alt="Pictura Poesis">
+    </a>
+    <p class="footer-tagline">Art · History · Decay · Fire</p>
+    <small>© 2026 Pictura Poesis</small>
+  </footer>
+
+  <dialog class="work-dialog" id="work-dialog" aria-labelledby="work-dialog-title">
+    <button class="detail-close" type="button" aria-label="Close detail view">×</button>
+    <div id="work-dialog-content"></div>
+  </dialog>
+
+  <div class="work-panels" aria-hidden="true">
+    <template id="detail-death-and-the-maiden">
+      <article class="work-detail">
+        <figure class="work-detail__visual">
+          <img src="assets/images/works/death-and-the-maiden.jpg" alt="Death and the Woman by Hans Baldung Grien">
+        </figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 01 · Revisited 2022</span>
+          <h2 id="work-dialog-title">Death and the Maiden</h2>
+          <p class="work-detail__art-title">Death and the Woman</p>
+          <dl class="detail-facts">
+            <div><dt>Artist</dt><dd>Hans Baldung Grien</dd></div>
+            <div><dt>Date</dt><dd>1518 to 1520</dd></div>
+            <div><dt>Collection</dt><dd>Kunstmuseum Basel</dd></div>
+          </dl>
+          <section class="detail-section">
+            <h3>The artwork</h3>
+            <p>Baldung turns the familiar meeting of youth and death into something uncomfortably intimate. Death does not wait at a distance. He takes hold of the woman directly, placing beauty, desire and decay inside the same frame.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Our interpretation</h3>
+            <p>The confrontation became one of the first Pictura Poesis compositions. Its return in 2022 was not only a new recording, but a test of whether the original idea could still speak through the band's present sound.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Listen</h3>
+            <div class="recordings">
+              <div class="recording">
+                <div><span class="recording-label">2022 single</span><strong>Re-recording</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/album/4mwRuoXnrW4520mu24LD81" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://www.youtube.com/watch?v=QhHWA1LEXbY" target="_blank" rel="noopener">Official video</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">2013 demo</span><strong>Original version</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://youtu.be/jsCPtvZGbQ4" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <p class="art-credit">Artwork image: public-domain reproduction via <a href="https://commons.wikimedia.org/wiki/File:Gw11_0001030_20170619_001_Baldung_Der_Tod_und_die_Frau.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-nightmares">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape">
+          <img src="assets/images/works/nightmare.jpg" alt="The Nightmare by Henry Fuseli">
+        </figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 02 · Nightmares</span>
+          <h2 id="work-dialog-title">Nightmares</h2>
+          <p class="work-detail__art-title">The Nightmare</p>
+          <dl class="detail-facts">
+            <div><dt>Artist</dt><dd>Henry Fuseli</dd></div>
+            <div><dt>Date</dt><dd>1781</dd></div>
+            <div><dt>Collection</dt><dd>Detroit Institute of Arts</dd></div>
+          </dl>
+          <section class="detail-section">
+            <h3>The artwork</h3>
+            <p>Fuseli gives a physical form to the terror of sleep. An incubus sits on the woman's chest while a horse emerges through the darkness, joining dream, paralysis and intrusion in one theatrical scene.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Our interpretation</h3>
+            <p>The song follows the moment when sleep stops offering escape. The painting's still body and impossible visitors became a foundation for music that shifts between suspended unease and sudden force.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Listen</h3>
+            <div class="recordings">
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Original recording</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/7r3ivtYjdUxXb3PuIhSYnf" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/nightmares/1437054928?i=1437054929" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/4CaIGKZbKcI" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:John_Henry_Fuseli_-_The_Nightmare.JPG" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-paralytic-child">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--contain">
+          <img src="assets/images/works/muybridge-plate-539.jpg" alt="Muybridge plate 539, a child walking on hands and feet">
+          <span class="context-badge">Context image, not Bacon's painting</span>
+        </figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 03 · Reinterpreted 2018</span>
+          <h2 id="work-dialog-title">The Paralytic Child</h2>
+          <p class="work-detail__art-title">Paralytic Child Walking on All Fours (from Muybridge)</p>
+          <dl class="detail-facts">
+            <div><dt>Artist</dt><dd>Francis Bacon</dd></div>
+            <div><dt>Date</dt><dd>1961</dd></div>
+            <div><dt>Source study</dt><dd>Eadweard Muybridge, 1887</dd></div>
+          </dl>
+          <section class="detail-section">
+            <h3>The artwork</h3>
+            <p>Bacon drew on Muybridge's sequential photography of a child moving on hands and feet. The body becomes both observed motion and exposed flesh. Bacon's painting remains under copyright, so this exhibition shows the public-domain photographic source instead.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Our interpretation</h3>
+            <p>The image suggested a conflict between movement and limitation. The song does not narrate the painting literally, but takes its strained physicality and vulnerability as a point of departure.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Listen</h3>
+            <div class="recordings">
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Reinterpretation</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/2plvfa7pO1aTan08UH8e3l" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/the-paralytic-child/1437054928?i=1437054931" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/yyebok99iCw" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/4zreOi9cUQWtbjapXQZ4LR" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/the-paralytic-child/1218280300?i=1218281572" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/JJPnkZL3crs" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+            </div>
+          </section>
+          <p class="art-credit">Context image: Eadweard Muybridge, <em>Animal Locomotion</em>, plate 539. CC0 image from the <a href="https://www.nga.gov/artworks/166965-plate-number-539-infantile-paralysis-child-walking-hands-and-feet" target="_blank" rel="noopener">National Gallery of Art</a>. Francis Bacon's 1961 painting is not reproduced.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-demonic-delusions">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--contain">
+          <img src="assets/images/works/vitruvian-man.jpg" alt="Vitruvian Man by Leonardo da Vinci">
+        </figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 04 · Reinterpreted 2018</span>
+          <h2 id="work-dialog-title">Demonic Delusions</h2>
+          <p class="work-detail__art-title">Vitruvian Man</p>
+          <dl class="detail-facts">
+            <div><dt>Artist</dt><dd>Leonardo da Vinci</dd></div>
+            <div><dt>Date</dt><dd>Circa 1490</dd></div>
+            <div><dt>Collection</dt><dd>Gallerie dell'Accademia, Venice</dd></div>
+          </dl>
+          <section class="detail-section">
+            <h3>The artwork</h3>
+            <p>Leonardo sets the human body inside a circle and square, joining anatomy, mathematics and the Renaissance search for ideal proportion. It is both an image of order and evidence of an intensely searching mind.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Our interpretation</h3>
+            <p>The drawing opened a route into the unstable border between genius and obsession. The composition began as a piano piece before being rebuilt for the full band, then returned to both forms on <em>Nightmares</em>.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Listen</h3>
+            <div class="recordings">
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Full-band version</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/6IpnMO0h5iZeJg0YP8kro5" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/demonic-delusions/1437054928?i=1437054932" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/rGjb0EKTDjw" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Piano version</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/4yPaxpCRl8DfMVCGN1rcE1" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/demonic-delusions-piano-version/1437054928?i=1437054935" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/eCP5cCbHuTs" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">Demonic Delusions · 2014</span><strong>Original version</strong></div>
+                <div class="listen-links"><a class="listen-link" href="https://www.youtube.com/watch?v=XKFqF3iYkRA" target="_blank" rel="noopener">YouTube</a></div>
+              </div>
+            </div>
+          </section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Uomo_Vitruviano.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-raft-of-medusa">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape">
+          <img src="assets/images/works/raft-of-medusa.jpg" alt="The Raft of the Medusa by Théodore Géricault">
+        </figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 05 · Reinterpreted 2018</span>
+          <h2 id="work-dialog-title">The Raft of Medusa</h2>
+          <p class="work-detail__art-title">Le Radeau de la Méduse</p>
+          <dl class="detail-facts">
+            <div><dt>Artist</dt><dd>Théodore Géricault</dd></div>
+            <div><dt>Date</dt><dd>1818 to 1819</dd></div>
+            <div><dt>Collection</dt><dd>Musée du Louvre, Paris</dd></div>
+          </dl>
+          <section class="detail-section">
+            <h3>The artwork</h3>
+            <p>Géricault depicts the aftermath of the wreck rather than the collision itself. Bodies rise from death and exhaustion toward a distant ship, making the entire composition move between abandonment and the last possibility of rescue.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Our interpretation</h3>
+            <p>The song follows that movement instead of retelling every event. Desperation, survival and a horizon that may still offer hope became the dramatic shape of one of the band's earliest works.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Listen</h3>
+            <div class="recordings">
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Reinterpretation</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/6MadZqebTdPXpyhvUoVmWb" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/the-raft-of-medusa/1437054928?i=1437054933" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/K9Ybxwbotgw" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">In Death's Embrace · 2013</span><strong>Original version</strong></div>
+                <div class="listen-links"><a class="listen-link" href="https://youtu.be/VA4d39AjQVk" target="_blank" rel="noopener">YouTube</a></div>
+              </div>
+            </div>
+          </section>
+          <p class="art-credit">Artwork image: public-domain reproduction via <a href="https://commons.wikimedia.org/wiki/File:Th%C3%A9odore_g%C3%A9ricault,_la_zattera_della_medusa,_1819,_01.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-limmortalite">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--contain">
+          <img src="assets/images/works/limmortalite.jpg" alt="L'immortalité by Xavier Mellery">
+        </figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 06 · Reinterpreted 2018</span>
+          <h2 id="work-dialog-title">L'immortalité</h2>
+          <p class="work-detail__art-title">L'immortalité</p>
+          <dl class="detail-facts">
+            <div><dt>Artist</dt><dd>Xavier Mellery</dd></div>
+            <div><dt>Date</dt><dd>Circa 1890</dd></div>
+            <div><dt>Collection</dt><dd>Royal Museums of Fine Arts, Brussels</dd></div>
+          </dl>
+          <section class="detail-section">
+            <h3>The artwork</h3>
+            <p>Mellery combines a gold ground, a skeletal figure and lines by Victor Hugo. The poem asks what remains of soul, flame and song once the body has become an empty cage.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Our interpretation</h3>
+            <p>Image and poem were treated as one source. Their questions about the body, memory and what may survive it became a composition that later returned in both a full-band and an orchestral form.</p>
+          </section>
+          <section class="detail-section">
+            <h3>Listen</h3>
+            <div class="recordings">
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Full-band version</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/49d01qdCYckLFHbiErUYrh" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/limmortalit%C3%A9/1437054928?i=1437054934" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/VDEUcT3z-s8" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">Nightmares · 2018</span><strong>Orchestral version</strong></div>
+                <div class="listen-links">
+                  <a class="listen-link" href="https://open.spotify.com/track/3QR5BEN13iPXi90AnYvq8u" target="_blank" rel="noopener">Spotify</a>
+                  <a class="listen-link" href="https://music.apple.com/gb/album/limmortalit%C3%A9-orchestral-version/1437054928?i=1437054936" target="_blank" rel="noopener">Apple Music</a>
+                  <a class="listen-link" href="https://youtu.be/onY7aRWiX5E" target="_blank" rel="noopener">YouTube</a>
+                </div>
+              </div>
+              <div class="recording">
+                <div><span class="recording-label">Demonic Delusions · 2014</span><strong>Original version</strong></div>
+                <div class="listen-links"><a class="listen-link" href="https://youtu.be/fWYAAjUaybM" target="_blank" rel="noopener">YouTube</a></div>
+              </div>
+            </div>
+          </section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Xavier_Mellery_Immortalit%C3%A9.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>. Catalogue record: <a href="https://fine-arts-museum.be/fr/la-collection/xavier-mellery-limmortalite" target="_blank" rel="noopener">Royal Museums of Fine Arts of Belgium</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-legions-of-doom">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/battle-of-waterloo.jpg" alt="The Battle of Waterloo by William Sadler II"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Ego Sum Bellum · Part I</span>
+          <h2 id="work-dialog-title">Legions of Doom</h2>
+          <p class="work-detail__art-title">The Battle of Waterloo</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>William Sadler II</dd></div><div><dt>Date</dt><dd>1815</dd></div><div><dt>Cycle</dt><dd>Ego Sum Bellum, part I</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Sadler spreads Waterloo across a wide field filled with cavalry, smoke and massed formations. From this distance, war appears as a system larger than any one soldier.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The first part of <em>Ego Sum Bellum</em> enters through the armies themselves: bodies gathered into legions and set in motion by forces beyond the individual.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Part I</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/4AvtK00jex524LnUNk2Wyu" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/legions-of-doom-ego-sum-bellum-pt-i/1218280300?i=1218281564" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/0-rlHITJFo4" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Battle_of_Waterloo_1815_(cropped).jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-visions-of-death">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/battle-of-waterloo.jpg" alt="The Battle of Waterloo by William Sadler II"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Ego Sum Bellum · Part II</span>
+          <h2 id="work-dialog-title">Visions of Death</h2>
+          <p class="work-detail__art-title">The Battle of Waterloo</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>William Sadler II</dd></div><div><dt>Date</dt><dd>1815</dd></div><div><dt>Cycle</dt><dd>Ego Sum Bellum, part II</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>The panorama records a decisive battle, yet its scale almost hides the individual deaths inside it. Smoke breaks the landscape into fragments while figures disappear into the mass.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The second part moves closer to the human experience of that field. Grandeur falls away, leaving confusion, fear and the constant presence of death.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Part II</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/19abCdLR45jTTasFA2IC3f" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/visions-of-death-ego-sum-bellum-pt-ii/1218280300?i=1218281573" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/EmlFv9r7NS4" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Battle_of_Waterloo_1815_(cropped).jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-father-of-destruction">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/battle-of-waterloo.jpg" alt="The Battle of Waterloo by William Sadler II"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Ego Sum Bellum · Part III</span>
+          <h2 id="work-dialog-title">Father of Destruction</h2>
+          <p class="work-detail__art-title">The Battle of Waterloo</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>William Sadler II</dd></div><div><dt>Date</dt><dd>1815</dd></div><div><dt>Cycle</dt><dd>Ego Sum Bellum, part III</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Waterloo became an image of both ending and repetition. A single battle closes a political chapter, while the forces that produced it remain recognisable far beyond 1815.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The final part turns from the field toward the impulse behind it. Power, ambition and destruction complete a triptych in which war speaks as if it were a character of its own.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Part III</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/3sktBMdPTEpXwP4DMTcZuN" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/father-of-destruction-ego-sum-bellum-pt-iii/1218280300?i=1218281585" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/eJFgAieiqUM" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Battle_of_Waterloo_1815_(cropped).jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-holy-whore">
+      <article class="work-detail">
+        <figure class="work-detail__visual"><img src="assets/images/works/penitent-magdalene.jpg" alt="The Penitent Magdalene by Guido Reni"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 10 · Miseriae Mundi</span>
+          <h2 id="work-dialog-title">Holy Whore</h2>
+          <p class="work-detail__art-title">The Penitent Magdalene</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Guido Reni</dd></div><div><dt>Date</dt><dd>Circa 1635</dd></div><div><dt>Collection</dt><dd>Walters Art Museum, Baltimore</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Reni presents Mary Magdalene through the later tradition of the penitent sinner. Her upward gaze, the cross and the skull combine repentance, devotion and mortality in an idealised image.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The song begins with the tension inside that tradition: a woman made simultaneously sacred and sinful. It questions the labels imposed on Magdalene rather than treating the painting as a simple devotional scene.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/3mkRwqoiK2BSfXxBKFRwSE" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/holy-whore/1218280300?i=1218281571" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/ok6Lzg6AzKE" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: CC0, courtesy of the <a href="https://art.thewalters.org/detail/40183/the-penitent-magdalene-2/" target="_blank" rel="noopener">Walters Art Museum</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-persephone">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/return-of-persephone.jpg" alt="The Return of Persephone by Frederic Leighton"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 11 · Miseriae Mundi</span>
+          <h2 id="work-dialog-title">Persephone</h2>
+          <p class="work-detail__art-title">The Return of Persephone</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Frederic Leighton</dd></div><div><dt>Date</dt><dd>1891</dd></div><div><dt>Collection</dt><dd>Leeds Art Gallery</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Leighton shows the instant Persephone rises from the underworld and reaches Demeter again. The vertical composition makes her return feel physical, with darkness below and reunion above.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The myth offers no uncomplicated rescue. Persephone belongs to both worlds, making return and loss part of the same cycle. The song takes that division as its centre.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/6IC7VBSlIA0WSDrfQJIncv" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/persephone/1218280300?i=1218281574" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://www.youtube.com/watch?v=71DSUE02wVM" target="_blank" rel="noopener">Official video</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Frederic_Leighton_-_The_Return_of_Persephone_(1891).jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-nightfall">
+      <article class="work-detail">
+        <figure class="work-detail__visual"><div class="rights-plaque"><span class="rights-plaque__inner"><span class="rights-plaque__mark" aria-hidden="true">N</span><strong>Image intentionally absent</strong><small>The source painting remains protected by copyright.</small></span></div></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 12 · Miseriae Mundi</span>
+          <h2 id="work-dialog-title">Nightfall</h2>
+          <p class="work-detail__art-title">De Bokkenrijder</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Harry Peerboom</dd></div><div><dt>Date</dt><dd>Modern work</dd></div><div><dt>Image status</dt><dd>Not reproduced</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Peerboom's painting draws on the nocturnal Bokkenrijder legend, in which riders were said to cross the sky on goats allied with the devil. The work remains under copyright and is therefore not reproduced here.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The image became an entrance into a world governed by dusk, superstition and approaching danger. The song concentrates on that atmosphere rather than documenting the historical gangs behind the legend.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/3TDaDMfBqzlAbCp8FwnzbI" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/nightfall/1218280300?i=1218281578" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/Pi9m0QRXJWY" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Harry Peerboom's source painting is identified for context only and is not reproduced.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-bockereyders">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--contain"><img src="assets/images/works/bockereyder-poster.jpg" alt="De Bokkenrijder of het skelet, a 1919 theatre poster by Theo Molkenboer"><span class="context-badge">Historical context image</span></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 13 · Miseriae Mundi</span>
+          <h2 id="work-dialog-title">The Bockereyders</h2>
+          <p class="work-detail__art-title">The Bokkenrijders legend</p>
+          <dl class="detail-facts"><div><dt>Source</dt><dd>Limburg folklore and history</dd></div><div><dt>Context image</dt><dd>Theo Molkenboer, 1919</dd></div><div><dt>Image status</dt><dd>Public domain</dd></div></dl>
+          <section class="detail-section"><h3>The source</h3><p>The Bokkenrijders were remembered as eighteenth-century gangs and transformed by folklore into riders who travelled through the night on flying goats. History and later myth have become almost impossible to separate.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The song uses that collision of crime, fear and supernatural storytelling. The poster shown here is a historical context image, not the single visual source of the composition.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/7A92soJN4KfOnF6QYgS2xX" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/the-bockereyders/1218280300?i=1218281579" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/4NbfDCdcAcY" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Context image: Theo Molkenboer, <em>De Bokkenrijder of het skelet</em>, 1919. Public domain via <a href="https://commons.wikimedia.org/wiki/File:De_Bokkenrijder_of_het_skelet.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-de-witt">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/de-witt.jpg" alt="The murder of the De Witt brothers by Romeyn de Hooghe"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 14 · Miseriae Mundi</span>
+          <h2 id="work-dialog-title">De Witt</h2>
+          <p class="work-detail__art-title">The Murder of the De Witt Brothers</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Romeyn de Hooghe</dd></div><div><dt>Date</dt><dd>1672</dd></div><div><dt>Medium</dt><dd>Etching and engraving</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>De Hooghe records the public murder of Johan and Cornelis de Witt during the Dutch Rampjaar. The dense crowd, weapons and repeated acts of violence turn the print into both news image and political memory.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The song enters Dutch history through the brutality of the image rather than through a heroic portrait. Its words draw the political event back toward the people trapped inside it.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/2h6zSsi33xfb6tuWxGGLoM" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/de-witt/1218280300?i=1218281583" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://youtu.be/qi_PmEPuh0k" target="_blank" rel="noopener">Official video</a></div></div></div></section>
+          <p class="art-credit">Artwork image: open image from the <a href="https://wellcomecollection.org/works/fj9xtqz4" target="_blank" rel="noopener">Wellcome Collection</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-plains-of-existence">
+      <article class="work-detail">
+        <figure class="work-detail__visual"><div class="rights-plaque"><span class="rights-plaque__inner"><span class="rights-plaque__mark" aria-hidden="true">P</span><strong>Image intentionally absent</strong><small>The source painting remains protected by copyright.</small></span></div></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 15 · Miseriae Mundi</span>
+          <h2 id="work-dialog-title">Plains of Existence</h2>
+          <p class="work-detail__art-title">Il trovatore (The Troubadour)</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Giorgio de Chirico</dd></div><div><dt>Date</dt><dd>Circa 1924</dd></div><div><dt>Collection</dt><dd>Museum Boijmans Van Beuningen</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>De Chirico places a mannequin-like figure in an emptied architectural world. Perspective, shadow and familiar objects remain, yet the scene feels suspended outside ordinary time.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The work suggested existence as a space one can occupy without fully belonging to it. The song follows that estrangement, using the painting's silence and artificial figure as its starting point.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Miseriae Mundi · 2017</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://open.spotify.com/track/5cmfTRZs8TwsYWHc3sKneb" target="_blank" rel="noopener">Spotify</a><a class="listen-link" href="https://music.apple.com/gb/album/plains-of-existence/1218280300?i=1218281584" target="_blank" rel="noopener">Apple Music</a><a class="listen-link" href="https://www.youtube.com/watch?v=WU0HIVZWKoM" target="_blank" rel="noopener">Official video</a></div></div></div></section>
+          <p class="art-credit">Artwork record: <a href="https://www.boijmans.nl/en/collection/artworks/4668/il-trovatore-the-troubadour" target="_blank" rel="noopener">Museum Boijmans Van Beuningen</a>. The painting is not reproduced because it remains under copyright.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-descendants">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/tower-of-babel.jpg" alt="The Tower of Babel by Pieter Bruegel the Elder"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Archive · Unreleased</span>
+          <h2 id="work-dialog-title">The Descendants</h2>
+          <p class="work-detail__art-title">The Tower of Babel</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Pieter Bruegel the Elder</dd></div><div><dt>Date</dt><dd>1563</dd></div><div><dt>Collection</dt><dd>Kunsthistorisches Museum, Vienna</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Bruegel's tower is monumental and already unstable. Thousands of small acts of construction build an impossible ambition whose failure is visible before the structure is complete.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>Created for the Art Rocks competition, the song looks beyond the biblical episode toward the people who inherit its pattern. Ambition, division and collapse become something passed from one generation to the next.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Archive</span><strong>Unreleased recording</strong></div><div class="listen-links"><a class="listen-link" href="https://youtu.be/usjzpeop6eA" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_(Vienna)_-_Google_Art_ProjectFXD.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-wrath-of-diana">
+      <article class="work-detail">
+        <figure class="work-detail__visual work-detail__visual--landscape"><img src="assets/images/works/diana-and-actaeon.jpg" alt="Diana and Actaeon by Giuseppe Cesari"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 17 · Demonic Delusions</span>
+          <h2 id="work-dialog-title">The Wrath of Diana</h2>
+          <p class="work-detail__art-title">Diana and Actaeon</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Giuseppe Cesari</dd></div><div><dt>Date</dt><dd>Circa 1602 to 1603</dd></div><div><dt>Collection</dt><dd>Museum of Fine Arts, Budapest</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Actaeon accidentally sees Diana bathing. Cesari shows the instant of discovery, with the hunter already growing antlers before he will be torn apart by his own hounds.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The myth turns a brief transgression into irreversible punishment. The song follows Diana's wrath and the speed with which identity, power and control are taken from Actaeon.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Demonic Delusions · 2014</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://www.youtube.com/watch?v=fzhi0qfmRe8" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Giuseppe_Cesari_-_Diana_and_Actaeon_-_Google_Art_Project.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-screams-of-silence">
+      <article class="work-detail">
+        <figure class="work-detail__visual"><img src="assets/images/works/the-scream.jpg" alt="The Scream by Edvard Munch"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 18 · Demonic Delusions</span>
+          <h2 id="work-dialog-title">Screams of Silence</h2>
+          <p class="work-detail__art-title">The Scream</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Edvard Munch</dd></div><div><dt>Date</dt><dd>1893</dd></div><div><dt>Collection</dt><dd>National Museum, Oslo</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Munch turns anxiety into landscape. The figure, sky and water share the same wavering rhythm, so the scream seems to pass through the entire world rather than come from one mouth alone.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>The song begins where sound and silence meet: an inner cry that cannot be separated from its surroundings. The painting's distorted space became as important as its central figure.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">Demonic Delusions · 2014</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://youtu.be/x9ZcCqbEdC0" target="_blank" rel="noopener">YouTube</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain via <a href="https://commons.wikimedia.org/wiki/File:Edvard_Munch_-_The_Scream_-_NG.M.00939_-_National_Museum_of_Art,_Architecture_and_Design.jpg" target="_blank" rel="noopener">Wikimedia Commons</a>.</p>
+        </div>
+      </article>
+    </template>
+
+    <template id="detail-face-of-death">
+      <article class="work-detail">
+        <figure class="work-detail__visual"><img src="assets/images/works/death-and-the-miser.jpg" alt="Death and the Miser by Hieronymus Bosch"></figure>
+        <div class="work-detail__content">
+          <span class="detail-label">Work 19 · The first composition</span>
+          <h2 id="work-dialog-title">The Face of Death</h2>
+          <p class="work-detail__art-title">Death and the Miser</p>
+          <dl class="detail-facts"><div><dt>Artist</dt><dd>Hieronymus Bosch</dd></div><div><dt>Date</dt><dd>Circa 1485 to 1490</dd></div><div><dt>Collection</dt><dd>National Gallery of Art, Washington</dd></div></dl>
+          <section class="detail-section"><h3>The artwork</h3><p>Bosch stages the final moment of a miser's life as a struggle for attention. Death enters at the door while demons, money and an angel compete around the bed. The choice between possession and salvation remains unresolved.</p></section>
+          <section class="detail-section"><h3>Our interpretation</h3><p>This was the first piece written as Pictura Poesis. The painting offered the complete proof of concept: an image with a story beneath its surface, ready to be translated into symphonic metal.</p></section>
+          <section class="detail-section"><h3>Listen</h3><div class="recordings"><div class="recording"><div><span class="recording-label">In Death's Embrace · 2013</span><strong>Original recording</strong></div><div class="listen-links"><a class="listen-link" href="https://www.youtube.com/watch?v=kZ7vc0VSKNw" target="_blank" rel="noopener">Official video</a></div></div></div></section>
+          <p class="art-credit">Artwork image: public domain and CC0 via <a href="https://commons.wikimedia.org/wiki/File:Hieronymus_Bosch,_Death_and_the_Miser,_c._1485-1490,_NGA_41645.jpg" target="_blank" rel="noopener">Wikimedia Commons</a> and the National Gallery of Art.</p>
+        </div>
+      </article>
+    </template>
+  </div>
+
+  <noscript>
+    <p style="margin:0;padding:1rem;color:#e4ded2;background:#0b0e0e;text-align:center;font:12px/1.6 Arial,sans-serif;">Enable JavaScript to open the artwork detail views and listening links.</p>
+  </noscript>
+
+  <script>
+    (() => {
+      const dialog = document.getElementById('work-dialog');
+      const dialogContent = document.getElementById('work-dialog-content');
+      const closeButton = dialog.querySelector('.detail-close');
+      let lastTrigger = null;
+
+      const openWork = (id, updateHash = true) => {
+        const template = document.getElementById(`detail-${id}`);
+        if (!template) return;
+
+        dialogContent.replaceChildren(template.content.cloneNode(true));
+        dialog.dataset.work = id;
+        document.body.classList.add('dialog-open');
+
+        if (!dialog.open) dialog.showModal();
+        if (updateHash) history.pushState({ work: id }, '', `#${id}`);
+        requestAnimationFrame(() => closeButton.focus());
+      };
+
+      const closeWork = (restoreFocus = true, clearHash = true) => {
+        if (dialog.open) dialog.close();
+        document.body.classList.remove('dialog-open');
+
+        if (clearHash && location.hash.slice(1) === dialog.dataset.work) {
+          history.replaceState(null, '', `${location.pathname}${location.search}`);
+        }
+
+        if (restoreFocus && lastTrigger) lastTrigger.focus();
+      };
+
+      document.querySelectorAll('[data-work]').forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+          lastTrigger = trigger;
+          openWork(trigger.dataset.work);
+        });
+      });
+
+      closeButton.addEventListener('click', () => closeWork());
+
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) closeWork();
+      });
+
+      dialog.addEventListener('cancel', (event) => {
+        event.preventDefault();
+        closeWork();
+      });
+
+      window.addEventListener('popstate', () => {
+        const id = location.hash.slice(1);
+        if (id && document.getElementById(`detail-${id}`)) {
+          openWork(id, false);
+        } else {
+          closeWork(false, false);
+        }
+      });
+
+      document.addEventListener('error', (event) => {
+        if (event.target instanceof HTMLImageElement) {
+          const frame = event.target.closest('.work-card__image, .work-detail__visual, .hero-exhibit__frame');
+          if (frame) frame.classList.add('image-fallback');
+        }
+      }, true);
+
+      const initialWork = location.hash.slice(1);
+      if (initialWork && document.getElementById(`detail-${initialWork}`)) {
+        openWork(initialWork, false);
+      }
+    })();
+  </script>
 </body>
 </html>
